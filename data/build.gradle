@@ -1,6 +1,8 @@
 plugins {
-    id 'com.android.library'
-    id 'org.jetbrains.kotlin.android'
+    id 'com.android.application'
+    id 'kotlin-android'
+    id 'kotlin-kapt'
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -30,6 +32,14 @@ android {
 }
 
 dependencies {
+
+    def hilt_version = '2.39'
+    def hilt_navigation_version = '1.0.0'
+
+    //Dagger - Hilt
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
+    implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_version"
 
     //Room
     implementation "androidx.room:room-runtime:$room_version"
