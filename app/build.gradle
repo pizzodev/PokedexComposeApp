@@ -1,9 +1,8 @@
 plugins {
     id 'com.android.application'
-    id 'org.jetbrains.kotlin.android'
     id 'kotlin-android'
     id 'kotlin-kapt'
-    //id 'dagger.hilt.android.plugin'
+    id("dagger.hilt.android.plugin")
 }
 
 android {
@@ -40,6 +39,7 @@ android {
     }
     composeOptions {
         kotlinCompilerExtensionVersion compose_version
+        kotlinCompilerVersion '1.6.10'
     }
     packagingOptions {
         resources {
@@ -58,9 +58,8 @@ dependencies {
     implementation "androidx.activity:activity-compose:$compose_activity_version"
 
     //Dagger - Hilt
-    kapt "com.google.dagger:hilt-android-compiler:$hilt_version"
-    implementation "com.google.dagger:hilt-android:$hilt_version"
-    implementation "androidx.hilt:hilt-lifecycle-viewmodel:$hilt_viewmodel_version"
+    implementation("com.google.dagger:hilt-android:$hilt_version")
+    kapt("com.google.dagger:hilt-android-compiler:$hilt_version")
     implementation "androidx.hilt:hilt-navigation-compose:$hilt_navigation_version"
 
     // Coroutines
@@ -92,4 +91,8 @@ dependencies {
     androidTestImplementation "androidx.test.espresso:espresso-core:$espresso_version"
     androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
     debugImplementation "androidx.compose.ui:ui-tooling:$compose_version"
+}
+
+kapt {
+    correctErrorTypes = true
 }
