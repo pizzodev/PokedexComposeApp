@@ -13,5 +13,7 @@ data class Pokemon(
     @ColumnInfo(name = "id")
     val id: UUID,
     @ColumnInfo(name = "name")
-    val name: String
+    val name: String,
+    @ColumnInfo(name = "url")
+    val url: String
 )

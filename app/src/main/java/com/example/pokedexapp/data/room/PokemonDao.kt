@@ -1,6 +1,7 @@
 package com.example.pokedexapp.data.room
 
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.pokedexapp.data.model.Pokemon
@@ -12,4 +13,7 @@ interface PokemonDao {
 
     @Query("SELECT * from pokemon")
     suspend fun getAllPokemon(): List<Pokemon>
+
+    @Query("DELETE from pokemon")
+    suspend fun eraseDatabase()
 }
