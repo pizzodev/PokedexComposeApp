@@ -1,4 +1,4 @@
-package com.example.pokedexapp.presentation.screens
+package com.example.pokedexapp.presentation.screens.pokemonList
 
 import android.util.Log
 import androidx.lifecycle.MutableLiveData
@@ -16,14 +16,14 @@ import kotlinx.coroutines.launch
 import javax.inject.Inject
 
 @HiltViewModel
-class TestViewModel @Inject constructor(
+class PokemonListViewModel @Inject constructor(
     private val useCaseStorage: PokemonUseCases
 ): ViewModel() {
 
     private val _pokemonList = MutableStateFlow<List<Pokemon>>(emptyList())
     val pokemonListRefresh = _pokemonList.asStateFlow()
 
-    fun initViewModel() {
+    init {
         populatePokemonList()
     }
 
