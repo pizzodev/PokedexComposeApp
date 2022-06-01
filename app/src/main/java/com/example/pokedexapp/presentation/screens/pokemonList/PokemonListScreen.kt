@@ -3,6 +3,7 @@ package com.example.pokedexapp.presentation.screens
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
@@ -20,6 +21,7 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.pokedexapp.data.model.Pokemon
+import com.example.pokedexapp.presentation.navigation.PokedexScreens
 import com.example.pokedexapp.presentation.screens.pokemonList.PokemonListViewModel
 
 @Composable
@@ -35,21 +37,30 @@ fun PokemonListScreen(navController: NavController) {
             EraseDatabase { vm.eraseDatabase() }
         }
 
-        PokemonList(pokemonListState)
-    }
-}
-
-@Composable
-fun PokemonList(pokemonList: List<Pokemon>) {
-    LazyColumn {
-        items(items = pokemonList) {
-            Text(text = "Id: ${it.id} - Name: ${it.name}")
+        PokemonList(pokemonListState) { name ->
+            navController.navigate(PokedexScreens.PokemonDetailScreen.name + "/$name")
         }
     }
 }
 
 @Composable
-fun ReloadPokemon(cbk: () -> Unit) {
+fun PokemonList(pokemonList: List<Pokemon>, onItemClickCbk: (name: String) -> Unit) {
+    LazyColumn {
+        items(items = pokemonList) {
+            Text(
+                modifier = Modifier
+                    .padding(5.dp)
+                    .clickable {
+                        onItemClickCbk.invoke(it.name)
+                    },
+                text = "Id: ${it.id} - Name: ${it.name}"
+            )
+        }
+    }
+}
+
+@Composable
+private fun ReloadPokemon(cbk: () -> Unit) {
     Surface(modifier =
     Modifier
         .size(50.dp)
@@ -65,7 +76,7 @@ fun ReloadPokemon(cbk: () -> Unit) {
 }
 
 @Composable
-fun EraseDatabase(cbk: () -> Unit) {
+private fun EraseDatabase(cbk: () -> Unit) {
     Surface(modifier =
     Modifier
         .size(50.dp)

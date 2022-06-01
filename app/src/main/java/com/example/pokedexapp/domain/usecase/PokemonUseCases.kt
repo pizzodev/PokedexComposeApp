@@ -3,6 +3,8 @@ package com.example.pokedexapp.domain.usecase
 import com.example.pokedexapp.data.datasource.PokemonDBRepository
 import com.example.pokedexapp.data.datasource.PokemonRemoteRepository
 import com.example.pokedexapp.data.model.Pokemon
+import com.example.pokedexapp.data.model.PokemonDetail
+import com.example.pokedexapp.data.network.networkDto.PokemonDetailDto
 import javax.inject.Inject
 import kotlin.random.Random
 
@@ -19,6 +21,15 @@ class PokemonUseCases @Inject constructor(
 
             remotePokemonList
         }
+    }
+
+    suspend fun getPokemonByNameUseCase(_name: String): PokemonDetail {
+        val pokemonDB = pokemonDBRepo.getPokemonByName(_name)
+
+        if (pokemonDB == null)
+            return pokemonRemoteRepo.getPokemonByName(_name).mapToPokemonDetail()
+        else
+            return pokemonDB
     }
 
     suspend fun cleanupCache() {

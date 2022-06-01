@@ -28,7 +28,7 @@ class PokemonListViewModel @Inject constructor(
     }
 
     //TODO error handling to be done better
-    fun populatePokemonList() {
+    private fun populatePokemonList() {
         viewModelScope.launch {
             try {
                 val pokemonList = useCaseStorage.getAllPokemonUseCase()

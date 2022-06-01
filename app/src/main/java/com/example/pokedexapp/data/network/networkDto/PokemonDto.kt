@@ -1,6 +1,8 @@
 package com.example.pokedexapp.data.network.networkDto
 
 import com.example.pokedexapp.data.model.Pokemon
+import com.example.pokedexapp.data.model.PokemonDetail
+import com.example.pokedexapp.data.model.PokemonSprite
 import com.google.gson.JsonObject
 import java.util.*
 
@@ -27,9 +29,23 @@ data class PokemonDto(
 data class PokemonDetailDto(
     val id: String,
     val name: String,
-    val sprites: PokemonSpriteDto
-)
+    val sprites: List<PokemonSpriteDto>
+) {
+    fun mapToPokemonDetail(): PokemonDetail {
+        return PokemonDetail(
+            id = this.id,
+            name = this.name,
+            sprites = this.sprites.map { it.mapToPokemonSprite() }
+        )
+    }
+}
 
 data class PokemonSpriteDto(
     val front_default: String
-)
+) {
+    fun mapToPokemonSprite(): PokemonSprite {
+        return PokemonSprite(
+            front_default = this.front_default
+        )
+    }
+}

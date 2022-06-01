@@ -5,6 +5,7 @@ import android.content.res.Resources
 import androidx.room.Room;
 import com.example.pokedexapp.R
 import com.example.pokedexapp.data.network.PokemonApi
+import com.example.pokedexapp.data.room.PokedexConverters
 import com.example.pokedexapp.data.room.PokemonDao;
 import com.example.pokedexapp.data.room.PokemonDatabase;
 import javax.inject.Singleton;
@@ -31,7 +32,9 @@ class DataModule {
         context,
         PokemonDatabase::class.java,
         "pokemon_database"
-    ).fallbackToDestructiveMigration().build()
+    ).fallbackToDestructiveMigration()
+        .addTypeConverter(PokedexConverters::class.java)
+        .build()
 
     @Provides
     @Singleton

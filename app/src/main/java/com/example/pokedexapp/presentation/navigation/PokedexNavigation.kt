@@ -2,10 +2,13 @@ package com.example.pokedexapp.presentation.navigation
 
 import android.window.SplashScreen
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
 import com.example.pokedexapp.presentation.screens.PokemonListScreen
+import com.example.pokedexapp.presentation.screens.pokemonDetail.PokemonDetailScreen
 import com.example.pokedexapp.presentation.screens.splash.PokedexSplashScreen
 
 @Composable
@@ -16,28 +19,27 @@ fun PokedexNavigation() {
         startDestination = PokedexScreens.SplashScreen.name
     ) {
 
-        composable(PokedexScreens.SplashScreen.name) {
+        composable(route = PokedexScreens.SplashScreen.name) {
             PokedexSplashScreen(navController)
         }
 
-        composable(PokedexScreens.PokemonListScreen.name) {
+        composable(route = PokedexScreens.PokemonListScreen.name) {
             PokemonListScreen(navController)
         }
 
-        //www.google.com/cityname="seattle"
-        /*val route = WeatherScreens.MainScreen.name
-        composable("$route/{city}",
+        val detailRoute = PokedexScreens.PokemonDetailScreen.name
+        composable(
+            route = "$detailRoute/{name}",
             arguments = listOf(
-                navArgument(name = "city"){
+                navArgument(name = "name") {
                     type = NavType.StringType
-                })){ navBack ->
-            navBack.arguments?.getString("city").let { city ->
-
-                val mainViewModel = hiltViewModel<MainViewModel>()
-                MainScreen(navController = navController, mainViewModel,
-                    city = city)
+                }
+            )
+        ) { navBack ->
+            navBack.arguments?.getString("name").let { name ->
+                PokemonDetailScreen(navController, name?:"")
             }
-        }*/
+        }
 
     }
 }
