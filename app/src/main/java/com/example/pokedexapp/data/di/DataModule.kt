@@ -32,9 +32,7 @@ class DataModule {
         context,
         PokemonDatabase::class.java,
         "pokemon_database"
-    ).fallbackToDestructiveMigration()
-        .addTypeConverter(PokedexConverters::class.java)
-        .build()
+    ).fallbackToDestructiveMigration().build()
 
     @Provides
     @Singleton

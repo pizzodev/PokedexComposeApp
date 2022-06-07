@@ -2,8 +2,7 @@ package com.example.pokedexapp.data.network.networkDto
 
 import com.example.pokedexapp.data.model.Pokemon
 import com.example.pokedexapp.data.model.PokemonDetail
-import com.example.pokedexapp.data.model.PokemonSprite
-import com.google.gson.JsonObject
+import com.example.pokedexapp.data.model.PokemonSprites
 import java.util.*
 
 data class PokemonListRoot(
@@ -29,22 +28,22 @@ data class PokemonDto(
 data class PokemonDetailDto(
     val id: String,
     val name: String,
-    val sprites: List<PokemonSpriteDto>
+    val sprites: PokemonSpritesDto
 ) {
     fun mapToPokemonDetail(): PokemonDetail {
         return PokemonDetail(
             id = this.id,
             name = this.name,
-            sprites = this.sprites.map { it.mapToPokemonSprite() }
+            sprites = this.sprites.mapToPokemonSprites()
         )
     }
 }
 
-data class PokemonSpriteDto(
+data class PokemonSpritesDto(
     val front_default: String
 ) {
-    fun mapToPokemonSprite(): PokemonSprite {
-        return PokemonSprite(
+    fun mapToPokemonSprites(): PokemonSprites {
+        return PokemonSprites(
             front_default = this.front_default
         )
     }

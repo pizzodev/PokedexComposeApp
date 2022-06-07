@@ -12,11 +12,14 @@ interface PokemonDao {
     @Insert
     suspend fun insertPokemon(pokemon: Pokemon)
 
+    @Insert
+    suspend fun insertPokemonDetail(pokemonDetail: PokemonDetail)
+
     @Query("SELECT * from pokemon")
     suspend fun getAllPokemon(): List<Pokemon>
 
-    @Query("SELECT * from pokemonDetail where name = :_name")
-    suspend fun getPokemonByName(_name: String): PokemonDetail?
+    @Query("SELECT * from pokemonDetail where name = :name")
+    suspend fun getPokemonByName(name: String): PokemonDetail?
 
     @Query("DELETE from pokemon")
     suspend fun eraseDatabase()

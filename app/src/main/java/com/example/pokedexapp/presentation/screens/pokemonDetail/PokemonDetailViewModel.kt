@@ -21,11 +21,15 @@ class PokemonDetailViewModel @Inject constructor(
     private val useCaseStorage: PokemonUseCases
 ): ViewModel() {
 
+    private var name: String? = null
     private val _pokemonDetail = MutableStateFlow<PokemonDetail?>(value = null)
     val pokemonDetailRefresh = _pokemonDetail.asStateFlow()
 
     fun initViewModel(_name: String) {
-        retrievePokemonDetail(_name)
+        if (name == null) {
+            name = _name
+            retrievePokemonDetail(_name)
+        }
     }
 
     //TODO error handling to be done better

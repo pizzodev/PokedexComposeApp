@@ -1,5 +1,6 @@
 package com.example.pokedexapp.presentation.screens.pokemonDetail
 
+import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.size
@@ -10,6 +11,9 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.Coil
+import coil.compose.rememberImagePainter
+import coil.transform.CircleCropTransformation
 
 @Composable
 fun PokemonDetailScreen(navController: NavController, _name: String?) {
@@ -20,7 +24,14 @@ fun PokemonDetailScreen(navController: NavController, _name: String?) {
     Surface(
         modifier = Modifier.fillMaxSize()
     ) {
-       Text(text = pokemonDetailState?.name?:"Unknown")
+        Text(text = pokemonDetailState?.name?:"Unknown")
+
+        Image(
+            painter = rememberImagePainter(
+                data = pokemonDetailState?.sprites?.front_default,
+            ),
+            contentDescription = "Pokemon sprite"
+        )
     }
 
     vm.initViewModel(_name?:"")

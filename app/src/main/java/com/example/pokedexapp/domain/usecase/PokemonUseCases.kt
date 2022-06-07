@@ -26,8 +26,11 @@ class PokemonUseCases @Inject constructor(
     suspend fun getPokemonByNameUseCase(_name: String): PokemonDetail {
         val pokemonDB = pokemonDBRepo.getPokemonByName(_name)
 
-        if (pokemonDB == null)
-            return pokemonRemoteRepo.getPokemonByName(_name).mapToPokemonDetail()
+        if (pokemonDB == null) {
+            val pokemonDetail = pokemonRemoteRepo.getPokemonByName(_name).mapToPokemonDetail()
+            pokemonDBRepo.saveToDatabase(pokemonDetail)
+            return pokemonDetail
+        }
         else
             return pokemonDB
     }

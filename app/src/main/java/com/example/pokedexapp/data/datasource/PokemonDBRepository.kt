@@ -20,5 +20,9 @@ class PokemonDBRepository @Inject constructor(
         }
     }
 
+    suspend fun saveToDatabase(pokemonDetail: PokemonDetail) {
+        pokemonDao.insertPokemonDetail(pokemonDetail)
+    }
+
     suspend fun eraseDabatabase() = pokemonDao.eraseDatabase()
 }
