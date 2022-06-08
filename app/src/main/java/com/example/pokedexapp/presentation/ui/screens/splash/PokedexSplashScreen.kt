@@ -1,4 +1,4 @@
-package com.example.pokedexapp.presentation.screens.splash
+package com.example.pokedexapp.presentation.ui.screens.splash
 
 import android.view.animation.OvershootInterpolator
 import androidx.compose.animation.core.Animatable
@@ -15,6 +15,7 @@ import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -26,7 +27,10 @@ import androidx.compose.ui.unit.dp
 import androidx.navigation.NavController
 import com.example.pokedexapp.R
 import com.example.pokedexapp.presentation.navigation.PokedexScreens
+import com.example.pokedexapp.presentation.utils.LoadingStatus
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 @Composable
 fun PokedexSplashScreen(navController: NavController) {

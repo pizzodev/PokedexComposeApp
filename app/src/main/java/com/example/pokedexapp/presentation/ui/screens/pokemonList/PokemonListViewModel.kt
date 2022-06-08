@@ -1,15 +1,14 @@
-package com.example.pokedexapp.presentation.screens.pokemonList
+package com.example.pokedexapp.presentation.ui.screens.pokemonList
 
 import android.util.Log
-import androidx.lifecycle.MutableLiveData
+import androidx.compose.runtime.MutableState
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import androidx.lifecycle.viewmodel.compose.viewModel
-import com.example.pokedexapp.data.datasource.PokemonDBRepository
 import com.example.pokedexapp.data.model.Pokemon
 import com.example.pokedexapp.domain.usecase.PokemonUseCases
+import com.example.pokedexapp.presentation.utils.LoadingStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
@@ -20,22 +19,29 @@ class PokemonListViewModel @Inject constructor(
     private val useCaseStorage: PokemonUseCases
 ): ViewModel() {
 
+    var loadingState: MutableState<LoadingStatus>? = null
+
     private val _pokemonList = MutableStateFlow<List<Pokemon>>(emptyList())
     val pokemonListRefresh = _pokemonList.asStateFlow()
 
-    init {
+    fun initViewModel(_loadingState: MutableState<LoadingStatus>) {
+        loadingState = _loadingState
         populatePokemonList()
     }
 
-    //TODO error handling to be done better
     private fun populatePokemonList() {
-        viewModelScope.launch {
-            try {
+        try {
+            viewModelScope.launch {
+                loadingState?.value = LoadingStatus.LOADING
+
                 val pokemonList = useCaseStorage.getAllPokemonUseCase()
                 _pokemonList.value = pokemonList
-            } catch (e: Exception) {
-                Log.d("Err", "Cannot do this: ${e.localizedMessage}")
+
+                loadingState?.value = LoadingStatus.COMPLETED
             }
+        } catch (e: Exception) {
+            loadingState?.value = LoadingStatus.FAILED
+            Log.d("Err", "Cannot do this: ${e.localizedMessage}")
         }
     }
 

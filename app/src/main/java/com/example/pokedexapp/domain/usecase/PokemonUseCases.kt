@@ -14,25 +14,23 @@ class PokemonUseCases @Inject constructor(
 ) {
     suspend fun getAllPokemonUseCase(): List<Pokemon> {
         return pokemonDBRepo.getAllPokemon().ifEmpty {
-            val remotePokemonList = pokemonRemoteRepo.getAllPokemonRemote(Random.nextInt(1126)).map {
-                it.mapToPokemon()
-            }
+            val remotePokemonList = pokemonRemoteRepo.getAllPokemonRemote(Random.nextInt(1126))
             pokemonDBRepo.saveToDatabase(remotePokemonList)
 
-            remotePokemonList
+            remotePokemonList.map { it.mapToPokemon() }
         }
     }
 
     suspend fun getPokemonByNameUseCase(_name: String): PokemonDetail {
         val pokemonDB = pokemonDBRepo.getPokemonByName(_name)
 
-        if (pokemonDB == null) {
-            val pokemonDetail = pokemonRemoteRepo.getPokemonByName(_name).mapToPokemonDetail()
+        pokemonDB?.let {
+            return it
+        }?: kotlin.run {
+            val pokemonDetail = pokemonRemoteRepo.getPokemonByName(_name)
             pokemonDBRepo.saveToDatabase(pokemonDetail)
-            return pokemonDetail
+            return pokemonDetail.mapToPokemonDetail()
         }
-        else
-            return pokemonDB
     }
 
     suspend fun cleanupCache() {

@@ -1,22 +1,24 @@
-package com.example.pokedexapp.presentation.screens.pokemonDetail
+package com.example.pokedexapp.presentation.ui.screens.pokemonDetail
 
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.size
 import androidx.compose.material.Surface
 import androidx.compose.material.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import coil.Coil
 import coil.compose.rememberImagePainter
-import coil.transform.CircleCropTransformation
+import com.example.pokedexapp.presentation.utils.LoadingStatus
 
 @Composable
-fun PokemonDetailScreen(navController: NavController, _name: String?) {
+fun PokemonDetailScreen(
+    navController: NavController,
+    loadingState: MutableState<LoadingStatus>,
+    _name: String?
+) {
 
     val vm = hiltViewModel<PokemonDetailViewModel>()
     val pokemonDetailState = vm.pokemonDetailRefresh.collectAsState().value
@@ -34,6 +36,6 @@ fun PokemonDetailScreen(navController: NavController, _name: String?) {
         )
     }
 
-    vm.initViewModel(_name?:"")
+    vm.initViewModel(loadingState,_name?:"")
 
 }

@@ -14,6 +14,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -22,10 +23,11 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import com.example.pokedexapp.data.model.Pokemon
 import com.example.pokedexapp.presentation.navigation.PokedexScreens
-import com.example.pokedexapp.presentation.screens.pokemonList.PokemonListViewModel
+import com.example.pokedexapp.presentation.ui.screens.pokemonList.PokemonListViewModel
+import com.example.pokedexapp.presentation.utils.LoadingStatus
 
 @Composable
-fun PokemonListScreen(navController: NavController) {
+fun PokemonListScreen(navController: NavController, loadingState: MutableState<LoadingStatus>) {
 
     val vm = hiltViewModel<PokemonListViewModel>()
     val pokemonListState = vm.pokemonListRefresh.collectAsState().value
@@ -33,14 +35,16 @@ fun PokemonListScreen(navController: NavController) {
     Column() {
 
         Row() {
-            ReloadPokemon { vm.reloadList() }
-            EraseDatabase { vm.eraseDatabase() }
+            ReloadPokemon { vm.reloadList() } //plus icon
+            EraseDatabase { vm.eraseDatabase() } //x icon
         }
 
         PokemonList(pokemonListState) { name ->
             navController.navigate(PokedexScreens.PokemonDetailScreen.name + "/$name")
         }
     }
+
+    vm.initViewModel(loadingState)
 }
 
 @Composable

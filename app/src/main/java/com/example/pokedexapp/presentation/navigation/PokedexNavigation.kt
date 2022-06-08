@@ -1,18 +1,19 @@
 package com.example.pokedexapp.presentation.navigation
 
-import android.window.SplashScreen
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.MutableState
 import androidx.navigation.NavType
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.example.pokedexapp.presentation.screens.PokemonListScreen
-import com.example.pokedexapp.presentation.screens.pokemonDetail.PokemonDetailScreen
-import com.example.pokedexapp.presentation.screens.splash.PokedexSplashScreen
+import com.example.pokedexapp.presentation.ui.screens.pokemonDetail.PokemonDetailScreen
+import com.example.pokedexapp.presentation.ui.screens.splash.PokedexSplashScreen
+import com.example.pokedexapp.presentation.utils.LoadingStatus
 
 @Composable
-fun PokedexNavigation() {
+fun PokedexNavigation(loadingState: MutableState<LoadingStatus>) {
     val navController = rememberNavController()
     NavHost(
         navController = navController,
@@ -24,7 +25,7 @@ fun PokedexNavigation() {
         }
 
         composable(route = PokedexScreens.PokemonListScreen.name) {
-            PokemonListScreen(navController)
+            PokemonListScreen(navController, loadingState)
         }
 
         val detailRoute = PokedexScreens.PokemonDetailScreen.name
@@ -37,7 +38,7 @@ fun PokedexNavigation() {
             )
         ) { navBack ->
             navBack.arguments?.getString("name").let { name ->
-                PokemonDetailScreen(navController, name?:"")
+                PokemonDetailScreen(navController, loadingState, name?:"")
             }
         }
 
