@@ -2,10 +2,13 @@ package com.example.pokedexapp.presentation.ui.screens.pokemonList
 
 import android.util.Log
 import androidx.compose.runtime.MutableState
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedexapp.data.model.Pokemon
+import com.example.pokedexapp.data.model.PokemonWithDetail
 import com.example.pokedexapp.domain.usecase.PokemonUseCases
 import com.example.pokedexapp.presentation.utils.LoadingStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -20,22 +23,26 @@ class PokemonListViewModel @Inject constructor(
 ): ViewModel() {
 
     var loadingState: MutableState<LoadingStatus>? = null
+    var pokemonListState: MutableState<List<PokemonWithDetail>>? = null
 
-    private val _pokemonList = MutableStateFlow<List<Pokemon>>(emptyList())
-    val pokemonListRefresh = _pokemonList.asStateFlow()
-
-    fun initViewModel(_loadingState: MutableState<LoadingStatus>) {
-        loadingState = _loadingState
-        populatePokemonList()
+    fun initViewModel(
+        _loadingState: MutableState<LoadingStatus>,
+        _pokemonListState: MutableState<List<PokemonWithDetail>>
+    ) {
+        if (loadingState == null) {
+            loadingState = _loadingState
+            pokemonListState = _pokemonListState
+            populatePokemonListWithDetail()
+        }
     }
 
-    private fun populatePokemonList() {
+    private fun populatePokemonListWithDetail() {
         try {
             viewModelScope.launch {
                 loadingState?.value = LoadingStatus.LOADING
 
-                val pokemonList = useCaseStorage.getAllPokemonUseCase()
-                _pokemonList.value = pokemonList
+                val pokemonList = useCaseStorage.getPokemonWithDetailUseCase()
+                pokemonListState?.value = pokemonList
 
                 loadingState?.value = LoadingStatus.COMPLETED
             }
@@ -45,10 +52,19 @@ class PokemonListViewModel @Inject constructor(
         }
     }
 
+    private fun showEmptyState() {
+        viewModelScope.launch {
+            loadingState?.value = LoadingStatus.LOADING
+            pokemonListState?.value = emptyList()
+            loadingState?.value = LoadingStatus.COMPLETED
+        }
+
+    }
+
     fun reloadList() {
         try {
             viewModelScope.launch {
-                populatePokemonList()
+                populatePokemonListWithDetail()
             }
         } catch (e: Exception) {
             Log.d("Room Err", "Cannot delete entries: ${e.localizedMessage}")
@@ -59,7 +75,7 @@ class PokemonListViewModel @Inject constructor(
         try {
             viewModelScope.launch {
                 useCaseStorage.cleanupCache()
-                populatePokemonList()
+                showEmptyState()
             }
         } catch (e: Exception) {
             Log.d("Room Err", "Cannot delete entries: ${e.localizedMessage}")

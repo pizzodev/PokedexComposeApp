@@ -1,28 +1,23 @@
 package com.example.pokedexapp.presentation.screens
 
 import androidx.compose.foundation.clickable
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.material.Icon
-import androidx.compose.material.Surface
-import androidx.compose.material.Text
+import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.AddCircle
 import androidx.compose.material.icons.filled.Clear
-import androidx.compose.runtime.Composable
-import androidx.compose.runtime.MutableState
-import androidx.compose.runtime.collectAsState
+import androidx.compose.material.icons.filled.Refresh
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
-import com.example.pokedexapp.data.model.Pokemon
+import com.example.pokedexapp.data.model.PokemonWithDetail
 import com.example.pokedexapp.presentation.navigation.PokedexScreens
+import com.example.pokedexapp.presentation.ui.screens.components.PokemonRow
 import com.example.pokedexapp.presentation.ui.screens.pokemonList.PokemonListViewModel
 import com.example.pokedexapp.presentation.utils.LoadingStatus
 
@@ -30,67 +25,94 @@ import com.example.pokedexapp.presentation.utils.LoadingStatus
 fun PokemonListScreen(navController: NavController, loadingState: MutableState<LoadingStatus>) {
 
     val vm = hiltViewModel<PokemonListViewModel>()
-    val pokemonListState = vm.pokemonListRefresh.collectAsState().value
 
-    Column() {
+    val pokemonListState = remember { mutableStateOf(emptyList<PokemonWithDetail>()) }
+    //val showEmptyState = remember { mutableStateOf(true) }
 
-        Row() {
-            ReloadPokemon { vm.reloadList() } //plus icon
-            EraseDatabase { vm.eraseDatabase() } //x icon
+    Scaffold(
+        topBar = {
+            TopAppBar {
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .wrapContentHeight(),
+                    verticalAlignment = Alignment.CenterVertically,
+                    horizontalArrangement = Arrangement.End
+                ) {
+                    ReloadPokemon { vm.reloadList() }
+                    EraseDatabase { vm.eraseDatabase() }
+                }
+            }
         }
-
-        PokemonList(pokemonListState) { name ->
-            navController.navigate(PokedexScreens.PokemonDetailScreen.name + "/$name")
+    ) {
+        if (pokemonListState.value.isEmpty()) {
+            PokemonEmptyState()
+        } else {
+            PokemonList(pokemonListState.value) { name ->
+                navController.navigate(PokedexScreens.PokemonDetailScreen.name + "/$name")
+            }
         }
     }
 
-    vm.initViewModel(loadingState)
+    vm.initViewModel(loadingState, pokemonListState)
 }
 
 @Composable
-fun PokemonList(pokemonList: List<Pokemon>, onItemClickCbk: (name: String) -> Unit) {
+fun PokemonList(pokemonList: List<PokemonWithDetail>, onItemClickCbk: (name: String) -> Unit) {
     LazyColumn {
         items(items = pokemonList) {
-            Text(
-                modifier = Modifier
-                    .padding(5.dp)
-                    .clickable {
-                        onItemClickCbk.invoke(it.name)
-                    },
-                text = "Id: ${it.id} - Name: ${it.name}"
-            )
+            PokemonRow(it, onItemClickCbk)
         }
     }
+}
+
+@Composable
+fun PokemonEmptyState() {
+    Text(text = "EMPTY")
 }
 
 @Composable
 private fun ReloadPokemon(cbk: () -> Unit) {
-    Surface(modifier =
-    Modifier
-        .size(50.dp)
+    Column(modifier = Modifier
+        .padding(5.dp)
         .clickable {
             cbk.invoke()
-        }) {
-        Icon(
-            Icons.Default.AddCircle,
-            contentDescription = "...",
-            tint = Color.Black,
-        )
+        },
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(modifier = Modifier
+            .size(25.dp)
+        ) {
+            Icon(
+                Icons.Default.Refresh,
+                contentDescription = "...",
+                tint = Color.White,
+            )
+        }
+        Text(text = "Random 20")
     }
 }
 
 @Composable
 private fun EraseDatabase(cbk: () -> Unit) {
-    Surface(modifier =
-    Modifier
-        .size(50.dp)
+    Column(modifier = Modifier
+        .padding(5.dp)
         .clickable {
             cbk.invoke()
-        }) {
-        Icon(
-            Icons.Default.Clear,
-            contentDescription = "...",
-            tint = Color.Black,
-        )
+        },
+        verticalArrangement = Arrangement.Center,
+        horizontalAlignment = Alignment.CenterHorizontally
+    ) {
+        Box(modifier = Modifier
+            .size(25.dp)
+        ) {
+            Icon(
+                Icons.Default.Clear,
+                contentDescription = "...",
+                tint = Color.White,
+            )
+        }
+        Text(text = "Erase stored")
     }
 }

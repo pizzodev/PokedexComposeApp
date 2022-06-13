@@ -1,8 +1,6 @@
 package com.example.pokedexapp.data.network.networkDto
 
-import com.example.pokedexapp.data.model.Pokemon
-import com.example.pokedexapp.data.model.PokemonDetail
-import com.example.pokedexapp.data.model.PokemonSprites
+import com.example.pokedexapp.data.model.*
 import java.util.*
 
 data class PokemonListRoot(
@@ -28,13 +26,15 @@ data class PokemonDto(
 data class PokemonDetailDto(
     val id: String,
     val name: String,
-    val sprites: PokemonSpritesDto
+    val sprites: PokemonSpritesDto,
+    val types: List<PokemonTypeMacroDto>
 ) {
     fun mapToPokemonDetail(): PokemonDetail {
         return PokemonDetail(
             id = this.id,
             name = this.name,
-            sprites = this.sprites.mapToPokemonSprites()
+            sprites = this.sprites.mapToPokemonSprites(),
+            types = this.types.map { it.mapToPokemonTypeMacro() }
         )
     }
 }
@@ -45,6 +45,30 @@ data class PokemonSpritesDto(
     fun mapToPokemonSprites(): PokemonSprites {
         return PokemonSprites(
             front_default = this.front_default
+        )
+    }
+}
+
+data class PokemonTypeMacroDto(
+    val slot: Int,
+    val type: PokemonTypeMicroDto
+) {
+    fun mapToPokemonTypeMacro(): PokemonTypeMacro {
+        return PokemonTypeMacro(
+            slot = this.slot,
+            type = this.type.mapToPokemonTypeMicro()
+        )
+    }
+}
+
+data class PokemonTypeMicroDto (
+    val name: String,
+    val url: String
+) {
+    fun mapToPokemonTypeMicro(): PokemonTypeMicro {
+        return PokemonTypeMicro(
+            name = this.name,
+            url = this.url
         )
     }
 }

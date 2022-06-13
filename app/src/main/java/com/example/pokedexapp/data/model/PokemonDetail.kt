@@ -16,5 +16,7 @@ data class PokemonDetail(
     @ColumnInfo(name = "name")
     val name: String,
     @ColumnInfo(name = "sprites")
-    val sprites: PokemonSprites
+    val sprites: PokemonSprites,
+    @ColumnInfo(name = "types")
+    val types: List<PokemonTypeMacro>
 )
