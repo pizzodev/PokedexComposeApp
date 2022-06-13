@@ -1,3 +1,8 @@
 <resources>
     <string name="app_name">PokedexApp</string>
+
+    <string name="random20">Random 20</string>
+    <string name="eraseDb">Erase stored</string>
+
+    <string name="empty_state_refresh">No pokemon here, refresh!</string>
 </resources>

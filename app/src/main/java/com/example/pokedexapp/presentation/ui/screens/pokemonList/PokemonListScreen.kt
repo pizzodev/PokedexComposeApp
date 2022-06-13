@@ -1,9 +1,12 @@
 package com.example.pokedexapp.presentation.screens
 
+import androidx.compose.foundation.Image
+import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
+import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -11,10 +14,15 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
+import coil.compose.rememberImagePainter
+import com.example.pokedexapp.R
 import com.example.pokedexapp.data.model.PokemonWithDetail
 import com.example.pokedexapp.presentation.navigation.PokedexScreens
 import com.example.pokedexapp.presentation.ui.screens.components.PokemonRow
@@ -68,7 +76,25 @@ fun PokemonList(pokemonList: List<PokemonWithDetail>, onItemClickCbk: (name: Str
 
 @Composable
 fun PokemonEmptyState() {
-    Text(text = "EMPTY")
+    Surface(modifier = Modifier
+        .fillMaxWidth()
+        .wrapContentHeight()
+    ) {
+        Column(
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Image(
+                modifier = Modifier
+                    .wrapContentSize()
+                    .padding(15.dp),
+                painter = rememberImagePainter(
+                    data = R.drawable.empty_state,
+                ),
+                contentDescription = "Pokedex empty state"
+            )
+            Text(text = stringResource(id = R.string.empty_state_refresh))
+        }
+    }
 }
 
 @Composable
@@ -90,7 +116,7 @@ private fun ReloadPokemon(cbk: () -> Unit) {
                 tint = Color.White,
             )
         }
-        Text(text = "Random 20")
+        Text(text = stringResource(id = R.string.random20))
     }
 }
 
@@ -113,6 +139,6 @@ private fun EraseDatabase(cbk: () -> Unit) {
                 tint = Color.White,
             )
         }
-        Text(text = "Erase stored")
+        Text(text = stringResource(id = R.string.eraseDb))
     }
 }
