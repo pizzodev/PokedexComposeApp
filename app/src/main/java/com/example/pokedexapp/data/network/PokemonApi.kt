@@ -1,9 +1,7 @@
 package com.example.pokedexapp.data.network
 
-import com.example.pokedexapp.data.model.Pokemon
 import com.example.pokedexapp.data.network.networkDto.LocationAreaMacroDto
 import com.example.pokedexapp.data.network.networkDto.PokemonDetailDto
-import com.example.pokedexapp.data.network.networkDto.PokemonDto
 import com.example.pokedexapp.data.network.networkDto.PokemonListRoot
 import retrofit2.http.GET
 import retrofit2.http.Path

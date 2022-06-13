@@ -35,7 +35,7 @@ fun PokedexSplashScreen(navController: NavController) {
 
     LaunchedEffect(key1 = true, block = {
 
-        delay(5000L)
+        delay(1500L)
 
         splashStatus.value = LoadingStatus.COMPLETED
 

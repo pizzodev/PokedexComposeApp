@@ -3,7 +3,6 @@ package com.example.pokedexapp.presentation.ui.screens.pokemonDetail
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
 import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.Card
@@ -21,7 +20,6 @@ import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberImagePainter
-import com.example.pokedexapp.data.model.PokemonDetail
 import com.example.pokedexapp.presentation.utils.LoadingStatus
 import kotlinx.coroutines.flow.asStateFlow
 

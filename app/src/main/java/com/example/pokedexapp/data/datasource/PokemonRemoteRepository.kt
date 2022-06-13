@@ -1,15 +1,9 @@
 package com.example.pokedexapp.data.datasource
 
-import android.util.Log
-import com.example.pokedexapp.data.model.Pokemon
-import com.example.pokedexapp.data.model.PokemonWithDetail
 import com.example.pokedexapp.data.network.PokemonApi
-import com.example.pokedexapp.data.network.networkDto.LocationAreaMacroDto
 import com.example.pokedexapp.data.network.networkDto.LocationAreasDto
 import com.example.pokedexapp.data.network.networkDto.PokemonDetailDto
 import com.example.pokedexapp.data.network.networkDto.PokemonDto
-import com.example.pokedexapp.data.room.PokemonDao
-import java.util.*
 import javax.inject.Inject
 
 class PokemonRemoteRepository @Inject constructor(

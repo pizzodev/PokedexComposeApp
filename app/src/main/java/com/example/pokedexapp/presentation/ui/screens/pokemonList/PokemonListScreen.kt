@@ -1,13 +1,10 @@
 package com.example.pokedexapp.presentation.screens
 
-import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
-import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
@@ -15,9 +12,7 @@ import androidx.compose.material.icons.filled.Refresh
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
@@ -31,7 +26,6 @@ import com.example.pokedexapp.presentation.ui.screens.pokemonList.PokemonListVie
 import com.example.pokedexapp.presentation.utils.LoadingStatus
 import kotlinx.coroutines.flow.asStateFlow
 
-@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PokemonListScreen(navController: NavController, loadingState: MutableState<LoadingStatus>) {
 

@@ -5,12 +5,10 @@ import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedexapp.data.model.PokemonDetail
-import com.example.pokedexapp.data.model.PokemonWithDetail
 import com.example.pokedexapp.domain.usecase.PokemonUseCases
 import com.example.pokedexapp.presentation.utils.LoadingStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.MutableStateFlow
-import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 

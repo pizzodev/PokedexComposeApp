@@ -1,7 +1,6 @@
 package com.example.pokedexapp.data.room
 
 import androidx.room.TypeConverter
-import com.example.pokedexapp.data.model.LocationAreaMacro
 import com.example.pokedexapp.data.model.LocationAreas
 import com.example.pokedexapp.data.model.PokemonSprites
 import com.example.pokedexapp.data.model.PokemonTypeMacro
@@ -15,15 +14,6 @@ class PokedexConverters {
     @TypeConverter
     fun fromSpritesStringified(value: String): PokemonSprites {
         return Gson().fromJson(value, PokemonSprites::class.java)
-    }
-
-    @TypeConverter
-    fun toLocationMacroAreaStringified(value: LocationAreaMacro): String {
-        return Gson().toJson(value)
-    }
-    @TypeConverter
-    fun fromLocationMacroAreaStringified(value: String): LocationAreaMacro {
-        return Gson().fromJson(value, LocationAreaMacro::class.java)
     }
 
     @TypeConverter

@@ -19,7 +19,6 @@ import dagger.hilt.android.AndroidEntryPoint
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-
         setContent {
 
             val changingStatusState = remember { mutableStateOf(LoadingStatus.IDLE) }
@@ -33,8 +32,6 @@ class MainActivity : ComponentActivity() {
                     PokedexNavigation(changingStatusState)
                     PokedexLoader(changingStatusState)
                 }
-
-
             }
         }
     }

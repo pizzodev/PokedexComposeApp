@@ -1,13 +1,8 @@
 package com.example.pokedexapp.domain.usecase
 
-import android.util.Log
-import androidx.compose.ui.text.capitalize
-import androidx.compose.ui.text.intl.Locale
 import com.example.pokedexapp.data.datasource.PokemonDBRepository
 import com.example.pokedexapp.data.datasource.PokemonRemoteRepository
 import com.example.pokedexapp.data.model.*
-import com.example.pokedexapp.data.network.networkDto.LocationAreaMacroDto
-import com.example.pokedexapp.data.network.networkDto.PokemonDetailDto
 import javax.inject.Inject
 import kotlin.random.Random
 
