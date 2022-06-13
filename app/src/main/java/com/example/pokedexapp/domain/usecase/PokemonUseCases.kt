@@ -1,12 +1,12 @@
 package com.example.pokedexapp.domain.usecase
 
+import android.util.Log
 import androidx.compose.ui.text.capitalize
 import androidx.compose.ui.text.intl.Locale
 import com.example.pokedexapp.data.datasource.PokemonDBRepository
 import com.example.pokedexapp.data.datasource.PokemonRemoteRepository
-import com.example.pokedexapp.data.model.Pokemon
-import com.example.pokedexapp.data.model.PokemonDetail
-import com.example.pokedexapp.data.model.PokemonWithDetail
+import com.example.pokedexapp.data.model.*
+import com.example.pokedexapp.data.network.networkDto.LocationAreaMacroDto
 import com.example.pokedexapp.data.network.networkDto.PokemonDetailDto
 import javax.inject.Inject
 import kotlin.random.Random
@@ -45,12 +45,25 @@ class PokemonUseCases @Inject constructor(
         pokemonDB?.let {
             return it
         }?: kotlin.run {
-            val pokemonDetail = pokemonRemoteRepo.getPokemonByName(_name)
+            val pokemonDetail = pokemonRemoteRepo.getPokemonByName(_name).apply {
+                location_area = mutableListOf()
 
-            //pokemonDBRepo.saveToDatabase(pokemonDetail)
+                getLocationEncounterAreas(
+                    this.location_area_encounters
+                ).map {
+                    this.location_area.add(it)
+                }
+            }
+
+            pokemonDBRepo.saveToDatabase(pokemonDetail)
 
             return pokemonDetail.mapToPokemonDetail()
         }
+    }
+
+    suspend fun getLocationEncounterAreas(_url: String): List<LocationAreas> {
+        val locationAreas = pokemonRemoteRepo.getLocationAreas(_url)
+        return locationAreas.map { it.mapToLocationArea() }
     }
 
     suspend fun cleanupCache() {

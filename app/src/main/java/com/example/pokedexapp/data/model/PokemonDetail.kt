@@ -4,8 +4,6 @@ import androidx.annotation.NonNull
 import androidx.room.ColumnInfo
 import androidx.room.Entity
 import androidx.room.PrimaryKey
-import androidx.room.TypeConverter
-import com.example.pokedexapp.data.room.PokedexConverters
 
 @Entity(tableName = "pokemonDetail")
 data class PokemonDetail(
@@ -15,6 +13,12 @@ data class PokemonDetail(
     val id: String,
     @ColumnInfo(name = "name")
     val name: String,
+    @ColumnInfo(name = "height")
+    val height: Double,
+    @ColumnInfo(name = "weight")
+    val weight: Double,
+    @ColumnInfo(name = "location_area_encounters")
+    val location_area_encounters: List<LocationAreas>?,
     @ColumnInfo(name = "sprites")
     val sprites: PokemonSprites,
     @ColumnInfo(name = "types")
