@@ -5,6 +5,7 @@ import androidx.compose.runtime.MutableState
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.example.pokedexapp.data.model.PokemonDetail
+import com.example.pokedexapp.data.model.PokemonWithDetail
 import com.example.pokedexapp.domain.usecase.PokemonUseCases
 import com.example.pokedexapp.presentation.utils.LoadingStatus
 import dagger.hilt.android.lifecycle.HiltViewModel
@@ -21,13 +22,15 @@ class PokemonDetailViewModel @Inject constructor(
     private var name: String? = null
     var loadingState: MutableState<LoadingStatus>? = null
 
-    private val _pokemonDetail = MutableStateFlow<PokemonDetail?>(value = null)
-    val pokemonDetailRefresh = _pokemonDetail.asStateFlow()
+    var pokemonDetailState = MutableStateFlow<PokemonDetail?>(null)
 
-    fun initViewModel(status: MutableState<LoadingStatus>, _name: String) {
-        loadingState = status
+    fun initViewModel(
+        _loadingState: MutableState<LoadingStatus>,
+        _name: String
+    ) {
         if (name == null) {
             name = _name
+            loadingState = _loadingState
             retrievePokemonDetail(_name)
         }
     }
@@ -38,11 +41,10 @@ class PokemonDetailViewModel @Inject constructor(
                 loadingState?.value = LoadingStatus.LOADING
 
                 val pokemonDetail = useCaseStorage.getPokemonByNameUseCase(_name)
-                _pokemonDetail.value = pokemonDetail
+                pokemonDetailState.value = pokemonDetail
 
                 loadingState?.value = LoadingStatus.COMPLETED
             }
-
         } catch (e: Exception) {
             loadingState?.value = LoadingStatus.FAILED
             Log.d("Err", "Cannot do this: ${e.localizedMessage}")

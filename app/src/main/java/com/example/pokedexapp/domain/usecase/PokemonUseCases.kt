@@ -30,7 +30,7 @@ class PokemonUseCases @Inject constructor(
 
             PokemonWithDetail(
                 detail.id,
-                pkm.name.capitalize(Locale.current),
+                pkm.name,
                 pkm.url,
                 detail.sprites,
                 detail.types
@@ -46,7 +46,8 @@ class PokemonUseCases @Inject constructor(
             return it
         }?: kotlin.run {
             val pokemonDetail = pokemonRemoteRepo.getPokemonByName(_name)
-            pokemonDBRepo.saveToDatabase(pokemonDetail)
+
+            //pokemonDBRepo.saveToDatabase(pokemonDetail)
 
             return pokemonDetail.mapToPokemonDetail()
         }

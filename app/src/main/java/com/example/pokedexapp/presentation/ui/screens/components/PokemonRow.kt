@@ -15,6 +15,8 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.text.capitalize
+import androidx.compose.ui.text.intl.Locale
 import androidx.compose.ui.unit.dp
 import coil.compose.rememberImagePainter
 import com.example.pokedexapp.data.model.PokemonWithDetail
@@ -55,7 +57,7 @@ fun PokemonRow(pokemonDetail: PokemonWithDetail, onItemClickCbk: (name: String) 
                     modifier = Modifier
                         .padding(10.dp)
                         .fillMaxWidth(),
-                    text = pokemonDetail.name
+                    text = pokemonDetail.name.capitalize(Locale.current)
                 )
             }
         }

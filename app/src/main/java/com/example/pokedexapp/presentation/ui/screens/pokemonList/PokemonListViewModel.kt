@@ -23,15 +23,14 @@ class PokemonListViewModel @Inject constructor(
 ): ViewModel() {
 
     var loadingState: MutableState<LoadingStatus>? = null
-    var pokemonListState: MutableState<List<PokemonWithDetail>>? = null
+
+    var pokemonListState = MutableStateFlow<List<PokemonWithDetail>>(emptyList())
 
     fun initViewModel(
-        _loadingState: MutableState<LoadingStatus>,
-        _pokemonListState: MutableState<List<PokemonWithDetail>>
+        _loadingState: MutableState<LoadingStatus>
     ) {
         if (loadingState == null) {
             loadingState = _loadingState
-            pokemonListState = _pokemonListState
             populatePokemonListWithDetail()
         }
     }
@@ -42,7 +41,7 @@ class PokemonListViewModel @Inject constructor(
                 loadingState?.value = LoadingStatus.LOADING
 
                 val pokemonList = useCaseStorage.getPokemonWithDetailUseCase()
-                pokemonListState?.value = pokemonList
+                pokemonListState.value = pokemonList
 
                 loadingState?.value = LoadingStatus.COMPLETED
             }

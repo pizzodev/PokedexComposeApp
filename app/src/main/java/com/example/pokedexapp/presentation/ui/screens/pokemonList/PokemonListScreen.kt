@@ -1,5 +1,6 @@
 package com.example.pokedexapp.presentation.screens
 
+import android.annotation.SuppressLint
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.border
 import androidx.compose.foundation.clickable
@@ -28,14 +29,15 @@ import com.example.pokedexapp.presentation.navigation.PokedexScreens
 import com.example.pokedexapp.presentation.ui.screens.components.PokemonRow
 import com.example.pokedexapp.presentation.ui.screens.pokemonList.PokemonListViewModel
 import com.example.pokedexapp.presentation.utils.LoadingStatus
+import kotlinx.coroutines.flow.asStateFlow
 
+@SuppressLint("StateFlowValueCalledInComposition")
 @Composable
 fun PokemonListScreen(navController: NavController, loadingState: MutableState<LoadingStatus>) {
 
     val vm = hiltViewModel<PokemonListViewModel>()
 
-    val pokemonListState = remember { mutableStateOf(emptyList<PokemonWithDetail>()) }
-    //val showEmptyState = remember { mutableStateOf(true) }
+    val pokemonListState = vm.pokemonListState.asStateFlow().collectAsState()
 
     Scaffold(
         topBar = {
@@ -62,7 +64,7 @@ fun PokemonListScreen(navController: NavController, loadingState: MutableState<L
         }
     }
 
-    vm.initViewModel(loadingState, pokemonListState)
+    vm.initViewModel(loadingState)
 }
 
 @Composable
