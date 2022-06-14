@@ -2,28 +2,63 @@
 
 This README would normally document whatever steps are necessary to get your application up and running.
 
-### What is this repository for? ###
+## What is this repository for? ##
 
-* Quick summary
-* Version
-* [Learn Markdown](https://bitbucket.org/tutorials/markdowndemo)
+* Practice on Android compose paradigm, using clean architecture and PokeApiV2
+* v1.0.0
 
-### How do I get set up? ###
+## Dependencies list and usage ##
 
-* Summary of set up
-* Configuration
-* Dependencies
-* Database configuration
-* How to run tests
-* Deployment instructions
+* androidx.activity:activity-compose: UI building with Android Compose new declarative paradigm
+* com.google.dagger:hilt-android: dependency injection library
+* androidx.hilt:hilt-navigation-compose: navigation component integrated with hild and compose
+* androidx.room:room-* : store data onboard with key-value structure
+* com.squareup.retrofit2:retrofit: perform REST calls
+* com.squareup.retrofit2:converter-gson: library to perform object mapping
+* org.jetbrains.kotlinx:kotlinx-coroutines-* : handle long tasks in background threads
+* io.coil-kt:coil-compose: asnycronous loading of images from web urls
+* androidx.test.ext:junit: unit test TODO
+* androidx.test.espresso:espresso-core: TODO
 
-### Contribution guidelines ###
+## Project structure ##
 
-* Writing tests
-* Code review
-* Other guidelines
+app   
+│
+└─── data
+│    │
+│    └─── datasource
+│    │
+│    └─── di
+│    │
+│    └─── model
+│    │
+│    └─── network
+│    │
+│    └─── room
+│         
+└─── domain.usecases
+│   
+└─── presentation
+│    │
+│    └─── di
+│    │
+│    └─── navigation
+│    │
+│    └─── theme
+│    │
+│    └─── ui.screens
+│         │
+│         └───components
+│         │
+│         └─── pokemonDetail
+│         │
+│         └─── pokemonList
+│         │
+│         └─── splash
 
-### Who do I talk to? ###
+## App screenshots ##
 
-* Repo owner or admin
-* Other community or team contact
+<img width="271" alt="Screenshot 2022-06-14 at 15 31 15" src="https://user-images.githubusercontent.com/107438397/173589489-62de0f96-ea43-4253-8843-acd30d85d69e.png">
+
+<img width="273" alt="Screenshot 2022-06-14 at 15 31 40" src="https://user-images.githubusercontent.com/107438397/173589502-fd59be54-42cf-40c0-91fa-e369462c1fd2.png">
+
