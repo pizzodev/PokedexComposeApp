@@ -1,8 +1,6 @@
 <resources>
     <string name="app_name">PokedexApp</string>
 
-    <string name="API_BASE_URL">https://pokeapi.co/api/v2/</string>
-
     <string name="random20">Random 20</string>
     <string name="eraseDb">Erase stored</string>
 
