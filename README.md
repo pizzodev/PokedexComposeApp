@@ -61,7 +61,16 @@ app
 
 ## App screenshots ##
 
-<img width="271" alt="Screenshot 2022-06-14 at 15 31 15" src="https://user-images.githubusercontent.com/107438397/173589489-62de0f96-ea43-4253-8843-acd30d85d69e.png">
+<div class="row">
+  <div class="column">
+    <img width="271" alt="Screenshot 2022-06-14 at 15 31 15" src="https://user-images.githubusercontent.com/107438397/173589489-62de0f96-ea43-4253-8843-acd30d85d69e.png">
+  </div>
+  <div class="column">
+    <img width="273" alt="Screenshot 2022-06-14 at 15 31 40" src="https://user-images.githubusercontent.com/107438397/173589502-fd59be54-42cf-40c0-91fa-    e369462c1fd2.png">
+  </div>
+</div>
 
-<img width="273" alt="Screenshot 2022-06-14 at 15 31 40" src="https://user-images.githubusercontent.com/107438397/173589502-fd59be54-42cf-40c0-91fa-e369462c1fd2.png">
+
+
+
 
