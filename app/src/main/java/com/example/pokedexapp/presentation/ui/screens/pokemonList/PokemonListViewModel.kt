@@ -35,8 +35,7 @@ class PokemonListViewModel @Inject constructor(
             viewModelScope.launch {
                 loadingState?.value = LoadingStatus.LOADING
 
-                val pokemonList = useCaseStorage.getPokemonWithDetailUseCase()
-                pokemonListState.value = pokemonList
+                useCaseStorage.getPokemonWithDetailUseCase(pokemonListState)
 
                 loadingState?.value = LoadingStatus.COMPLETED
             }

@@ -11,17 +11,40 @@ class PokemonUseCases @Inject constructor(
     private val pokemonRemoteRepo: PokemonRemoteRepository
 ) {
 
-    suspend fun getPokemonWithDetailUseCase(): List<PokemonWithDetail> {
+    suspend fun getPokemonWithDetailUseCase(pokemonListState: MutableStateFlow<List<PokemonWithDetail>>) {
 
         val pokemonList = pokemonDBRepo.getAllPokemon().ifEmpty {
             val remotePokemonList = pokemonRemoteRepo.getAllPokemonRemote(Random.nextInt(1126))
-            pokemonDBRepo.saveToDatabase(remotePokemonList)
+
+            //Run on separate coroutine
+            coroutineScope {
+                pokemonDBRepo.saveToDatabase(remotePokemonList)
+            }
+
             remotePokemonList.map { it.mapToPokemon() }
         }
 
-        return pokemonList.map { pkm ->
+        val pokemonListWithDetail = mutableListOf<PokemonWithDetail>()
 
-            val detail = getPokemonByNameUseCase(_name = pkm.name)
+        //Run on n threads
+        coroutineScope {
+            JobMultiThreadHandler.waitForCompletion(
+                    pokemonList.map { pkm ->
+                        launch {
+                            val detail = getPokemonByNameUseCase(_name = pkm.name)
+                            pokemonListWithDetail.add(
+                                PokemonWithDetail(
+                                    detail.id,
+                                    pkm.name,
+                                    pkm.url,
+                                    detail.sprites,
+                                    detail.types
+                                )
+                            )
+                        }
+                    }
+            )
+        }
 
             PokemonWithDetail(
                 detail.id,
