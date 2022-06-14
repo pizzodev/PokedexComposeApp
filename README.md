@@ -22,6 +22,7 @@ This README would normally document whatever steps are necessary to get your app
 
 ## Project structure ##
 
+```
 app   
 │
 └─── data
@@ -55,6 +56,8 @@ app
 │         └─── pokemonList
 │         │
 │         └─── splash
+```
+
 
 ## App screenshots ##
 
