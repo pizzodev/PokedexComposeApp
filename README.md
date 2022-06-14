@@ -38,7 +38,9 @@ app
 │    └─── room
 │         
 └─── domain.usecases
-│   
+│    │
+│    └─── utils
+│
 └─── presentation
 │    │
 │    └─── di
